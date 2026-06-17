@@ -1,17 +1,18 @@
-import { redirect } from 'next/navigation';
+'use client';
 
-import { checkSession } from '@/lib/api/serverApi';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function AuthLayout({ children }: Readonly<AuthLayoutProps>) {
-  const session = await checkSession();
+export default function AuthLayout({ children }: Readonly<AuthLayoutProps>) {
+  const router = useRouter();
 
-  if (session) {
-    redirect('/profile');
-  }
+  useEffect(() => {
+    router.refresh();
+  }, [router]);
 
   return <>{children}</>;
 }

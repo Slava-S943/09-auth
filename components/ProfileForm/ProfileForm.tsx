@@ -3,25 +3,22 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import type { User } from '@/types/user';
-
 import { updateMe } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 
-type ProfileFormProps = {
-  user: User;
-};
+import css from './ProfileForm.module.css';
 
-export default function ProfileForm({ user }: Readonly<ProfileFormProps>) {
+export default function ProfileForm() {
   const router = useRouter();
 
+  const user = useAuthStore(state => state.user);
   const setUser = useAuthStore(state => state.setUser);
 
-  const [username, setUsername] = useState(user.username);
+  const [username, setUsername] = useState(user?.username || '');
   const [error, setError] = useState('');
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     try {
       const updatedUser = await updateMe({
@@ -38,22 +35,22 @@ export default function ProfileForm({ user }: Readonly<ProfileFormProps>) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form onSubmit={handleSubmit} className={css.form}>
+      <div className={css.field}>
         <label htmlFor="username">Username</label>
 
         <input
           id="username"
           type="text"
           value={username}
-          onChange={event => setUsername(event.target.value)}
+          onChange={e => setUsername(e.target.value)}
           required
         />
 
-        {error && <p>{error}</p>}
-
-        <button type="submit">Save changes</button>
+        {error && <p className={css.error}>{error}</p>}
       </div>
+
+      <button type="submit">Save changes</button>
     </form>
   );
 }
