@@ -1,8 +1,8 @@
+import { cookies } from 'next/headers';
 import { api } from './api';
 
 import type { Note, NoteTag } from '@/types/note';
 import type { User } from '@/types/user';
-import { cookies } from 'next/headers';
 
 export interface FetchNotesResponse {
   notes: Note[];
@@ -18,7 +18,6 @@ export interface FetchNotesParams {
 
 const getCookieHeader = async () => {
   const cookieStore = await cookies();
-
   return cookieStore.toString();
 };
 
@@ -57,16 +56,14 @@ export const fetchNoteById = async (id: string): Promise<Note> => {
   return data;
 };
 
-export const checkSession = async (): Promise<User | null> => {
+export const checkSession = async () => {
   const cookie = await getCookieHeader();
 
-  const { data } = await api.get<User | null>('/auth/session', {
+  return api.get<User | null>('/auth/session', {
     headers: {
       Cookie: cookie,
     },
   });
-
-  return data;
 };
 
 export const getMe = async (): Promise<User> => {
