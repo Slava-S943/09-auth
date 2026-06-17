@@ -5,13 +5,13 @@ import { useState, useEffect } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { fetchNotes } from '@/lib/api';
+import { fetchNotes } from '@/lib/api/clientApi';
 
 import NoteList from '@/components/NoteList/NoteList';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Pagination from '@/components/Pagination/Pagination';
 
-import type { FetchNotesResponse } from '@/lib/api';
+import type { FetchNotesResponse } from '@/lib/api/clientApi';
 import type { NoteTag } from '@/types/note';
 
 import css from './NotesPage.module.css';

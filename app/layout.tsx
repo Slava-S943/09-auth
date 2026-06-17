@@ -5,6 +5,7 @@ import 'modern-normalize/modern-normalize.css';
 import './globals.css';
 
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 
@@ -45,13 +46,15 @@ export default function RootLayout({ children, modal }: Readonly<RootLayoutProps
     <html lang="en">
       <body className={roboto.variable}>
         <TanStackProvider>
-          <Header />
+          <AuthProvider>
+            <Header />
 
-          <main className="main">{children}</main>
+            <main className="main">{children}</main>
 
-          {modal}
+            {modal}
 
-          <Footer />
+            <Footer />
+          </AuthProvider>
         </TanStackProvider>
       </body>
     </html>
